@@ -182,14 +182,14 @@ def get_s3_url(request):
 
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
-def get_all_video(request):
+def get_all_video(request, username):
     account_data = Account.objects.get(username = username)
     videos = account_data.videos
     videos_list = videos.split(',')
     result_video_list = []
     for timestamp in videos_list:
         video_info = VideoInfo.objects.get(video_id = f"{username}/{timestamp}")
-        dt_utc = datetime.datetime.utcfromtimestamp(timestamp)
+        dt_utc = datetime.datetime.utcfromtimestamp(int(timestamp))
         kst_offset = datetime.timedelta(hours=9)
         dt_kst = dt_utc + kst_offset
         result_video_list.append({
@@ -203,4 +203,4 @@ def get_all_video(request):
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def get_specific_video(request):
-    
+    pass

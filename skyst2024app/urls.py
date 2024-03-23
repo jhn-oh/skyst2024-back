@@ -10,5 +10,5 @@ urlpatterns = [
     path('video/get/<int:video_id>', views.get_video, name="get_video"),
     path('login/', views.login, name='login'),
     path('video/upload/', views.get_s3_url, name="get_s3_url"),
-    path('video/get/<str:username>', views.get_all_video, name="get_all_video"),
+    path('video/get/<str:username>/', views.get_all_video, name="get_all_video"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
