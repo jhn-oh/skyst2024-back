@@ -65,7 +65,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'skyst2024back.urls'
 
-CSRF_TRUSTED_ORIGINS = ['https://api-skyst.mirix.kr/', 'https://www-skyst.mirix.kr/', 'http://localhost:5173']
+CSRF_TRUSTED_ORIGINS = ['https://api-skyst.mirix.kr', 'https://www-skyst.mirix.kr', 'http://localhost:5173']
 
 TEMPLATES = [
     {

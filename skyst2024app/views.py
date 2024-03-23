@@ -166,13 +166,14 @@ def get_s3_url(request):
                                                           'ContentType': 'video/webm'},
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
-    
+    '''
     presigned_url_thumbnail = client.generate_presigned_url('put_object',
                                                   Params={'Bucket': AWS_STORAGE_BUCKET_NAME,
                                                           'Key': f"thumbnails/{username}/{unix_timestamp}.jpg",
                                                           'ContentType': 'image/jpg'}, #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
+    '''
                                                   
     #Key를 저장함
     video_list = Account.objects.get(username = username)
@@ -187,7 +188,7 @@ def get_s3_url(request):
     )
 
     return JsonResponse({'video': presigned_url_video,
-                         'thumbnail': presigned_url_thumbnail
+                         #'thumbnail': presigned_url_thumbnail
                          })
 
 
@@ -213,7 +214,7 @@ def get_all_video(request, username):
         dt_kst = dt_utc + kst_offset
         result_video_list.append({
             "url": f"https://skyst2024.s3.amazonaws.com/videos/{username}/{timestamp}.webm",
-            "thumbnail": f"https://skyst2024.s3.amazonaws.com/thumbnails/{username}/{timestamp}.jpg", #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
+            #"thumbnail": f"https://skyst2024.s3.amazonaws.com/thumbnails/{username}/{timestamp}.jpg", #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
             "question": video_info.question,
             "datetime": dt_kst.strftime('%Y년 %m월 %d일'),
             "video_id": f"{username}/{timestamp}"
@@ -232,7 +233,7 @@ def get_specific_video(request):
     data = {
         #"url": f"https://skyst2024.s3.us-east-1.amazonaws.com/videos/{video_id}.webm",
         "url": f"https://skyst2024.s3.amazonaws.com/videos/{video_id}.webm",
-        "thumbnail": f"https://skyst2024.s3.amazonaws.com/thumbnails/{video_id}.jpg", #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
+        #"thumbnail": f"https://skyst2024.s3.amazonaws.com/thumbnails/{video_id}.jpg", #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
         "question": video_info.question,
         #"datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S'),
         "datetime": dt_kst.strftime('%Y년 %m월 %d일'),
