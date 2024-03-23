@@ -167,7 +167,7 @@ def get_s3_url(request):
                                                   HttpMethod='PUT')
     presigned_url_thumbnail = client.generate_presigned_url('put_object',
                                                   Params={'Bucket': AWS_STORAGE_BUCKET_NAME,
-                                                          'Key': f"thumbnails/{username}/{unix_timestamp}.webm"},
+                                                          'Key': f"thumbnails/{username}/{unix_timestamp}.jpg"}, #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
     #Key를 저장함
@@ -185,15 +185,6 @@ def get_s3_url(request):
     return JsonResponse({'video': presigned_url_video,
                          'thumbnail': presigned_url_thumbnail})
 
-def save_thumbnail(request):
-    AWS_ACCESS_KEY_ID = "AKIAYKLLNR5ERK5GNIPO"
-    AWS_SECRET_ACCESS_KEY ="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"
-    AWS_STORAGE_BUCKET_NAME = "skyst2024"
-    AWS_S3_REGION_NAME = "us-east-1"
-
-    client = boto3.client('s3', region_name=AWS_S3_REGION_NAME,
-                          aws_access_key_id=AWS_ACCESS_KEY_ID,
-                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
     # Generate a pre-signed URL for PUT requests
     presigned_url = client.generate_presigned_url('put_object',
@@ -235,6 +226,7 @@ def get_specific_video(request):
     data = {
         #"url": f"https://skyst2024.s3.us-east-1.amazonaws.com/videos/{video_id}.webm",
         "url": f"https://skyst2024.s3.amazonaws.com/videos/{video_id}.webm",
+        "thumbnail": f"https://skyst2024.s3.amazonaws.com/thumbnails/{video_id}.jpg", #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
         "question": video_info.question,
         "datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S'),
         "video_id": video_id
