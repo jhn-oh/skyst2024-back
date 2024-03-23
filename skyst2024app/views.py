@@ -187,7 +187,8 @@ def get_s3_url(request):
     )
 
     return JsonResponse({'video': presigned_url_video,
-                         'thumbnail': presigned_url_thumbnail})
+                         #'thumbnail': presigned_url_thumbnail
+                         })
 
 
     # Generate a pre-signed URL for PUT requests
