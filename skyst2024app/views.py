@@ -208,6 +208,7 @@ def get_all_video(request, username):
         dt_kst = dt_utc + kst_offset
         result_video_list.append({
             "url": f"https://skyst2024.s3.amazonaws.com/videos/{username}/{timestamp}.webm",
+            "thumbnail": f"https://skyst2024.s3.amazonaws.com/thumbnails/{username}/{timestamp}.jpg", #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
             "question": video_info.question,
             "datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S'),
             "video_id": f"{username}/{timestamp}"
