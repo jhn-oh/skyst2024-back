@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-)u^l&-g5va!q8z7%7+-1d_focfra^!ylcu12x5m@9v$+r*kdl2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'http://127.0.0.1:8000/', '127.0.0.1', 'api-skyst.mirix.kr']
+ALLOWED_HOSTS = ['0.0.0.0', 'http://127.0.0.1:8000/', '127.0.0.1', 'api-skyst.mirix.kr', 'localhost:5173']
 
 
 # Application definition
@@ -57,7 +57,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'skyst2024back.urls'
 
-CSRF_TRUSTED_ORIGINS = ['https://api-skyst.mirix.kr/', 'https://www-skyst.mirix.kr/']
+CSRF_TRUSTED_ORIGINS = ['https://api-skyst.mirix.kr/', 'https://www-skyst.mirix.kr/', 'http://localhost:5173']
 
 TEMPLATES = [
     {
