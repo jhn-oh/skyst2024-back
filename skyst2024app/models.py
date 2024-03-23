@@ -18,3 +18,8 @@ class Account(models.Model):
 
     def __str__(self):
         return self.username
+    
+class VideoInfo(models.Model):
+    video_id = models.CharField(max_length = 100)
+    question = models.CharField(max_length = 255)
+    time = models.IntegerField(max_length = 100)

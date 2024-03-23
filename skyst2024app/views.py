@@ -145,6 +145,7 @@ s3 = s3_connection()
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def get_s3_url(request):
+    # username = request.POST.get('username') #지금은 기본 username으로 진행 (username = skyst2024)
     unix_timestamp = round(time())
     AWS_ACCESS_KEY_ID = "AKIAYKLLNR5ERK5GNIPO"
     AWS_SECRET_ACCESS_KEY ="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"
@@ -166,3 +167,17 @@ def get_s3_url(request):
     video_list.videos = f"{video_list.videos},{unix_timestamp}"
     video_list.save()
     return JsonResponse({'url': presigned_url})
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def get_all_video(request):
+    account_data = Account.objects.get(username = username)
+    videos = account_data.videos
+    videos_list = videos.split(',')
+    result_video_list = []
+    for timestamp in videos_list:
+        result_video_list.append({
+            "url": f"https://skyst2024.s3.us-east-1.amazonaws.com/videos/skyst2024/{username}/{timestamp}.webm"
+        })
+    
