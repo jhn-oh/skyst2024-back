@@ -161,7 +161,7 @@ def get_s3_url(request):
 
     # Generate a pre-signed URL for PUT requests
     presigned_url = client.generate_presigned_url('put_object',
-                                                  Params={'Bucket': "skyst2024",
+                                                  Params={'Bucket': AWS_STORAGE_BUCKET_NAME,
                                                           'Key': f"videos/{username}/{unix_timestamp}.webm"},
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
@@ -178,6 +178,25 @@ def get_s3_url(request):
     )
 
     return JsonResponse({'url': presigned_url})
+
+def save_thumbnail(request):
+    unix_timestamp = round(time())
+    question_req = request.GET.get('question')
+    AWS_ACCESS_KEY_ID = "AKIAYKLLNR5ERK5GNIPO"
+    AWS_SECRET_ACCESS_KEY ="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"
+    AWS_STORAGE_BUCKET_NAME = "skyst2024"
+    AWS_S3_REGION_NAME = "us-east-1"
+
+    client = boto3.client('s3', region_name=AWS_S3_REGION_NAME,
+                          aws_access_key_id=AWS_ACCESS_KEY_ID,
+                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+
+    # Generate a pre-signed URL for PUT requests
+    presigned_url = client.generate_presigned_url('put_object',
+                                                  Params={'Bucket': AWS_STORAGE_BUCKET_NAME,
+                                                          'Key': f"videos/{username}/{unix_timestamp}.webm"},
+                                                  ExpiresIn=3600, # URL expires in 1 hour
+                                                  HttpMethod='PUT')
 
 
 @api_view(['GET', 'POST'])
@@ -219,4 +238,3 @@ def get_specific_video(request):
     #print(video_info.question)
     return JsonResponse({"data": data})
 
-def 
