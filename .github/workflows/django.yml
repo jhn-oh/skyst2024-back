@@ -21,10 +21,9 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Pull Repo
+    - name: Kill Process
+      continue-on-error: true
       run: |
-        pwd
-        git pull
         sudo lsof -t -i tcp:8000 | xargs kill -9
     - name: Install Dependencies
       run: |
