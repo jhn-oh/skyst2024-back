@@ -31,6 +31,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run
       run: |
-        python manage.py makemigrations	
-        python manage.py migrate
-        nohup gunicorn --bind 0.0.0.0:8000 skyst2024.wsgi > nohup.out 2> nohup.err < /dev/null
+        nohup python manage.py runserver > nohup.out 2> nohup.err < /dev/null &
