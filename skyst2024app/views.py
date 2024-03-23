@@ -193,7 +193,7 @@ def get_all_video(request, username):
         kst_offset = datetime.timedelta(hours=9)
         dt_kst = dt_utc + kst_offset
         result_video_list.append({
-            "url": f"https://skyst2024.s3.us-east-1.amazonaws.com/videos/skyst2024/{username}/{timestamp}.webm",
+            "url": f"https://skyst2024.s3.us-east-1.amazonaws.com/videos/{username}/{timestamp}.webm",
             "question": video_info.question,
             "datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S'),
             "video_id": f"{username}/{timestamp}"
@@ -210,10 +210,10 @@ def get_specific_video(request):
     kst_offset = datetime.timedelta(hours=9)
     dt_kst = dt_utc + kst_offset
     data = {
-        "url": f"https://skyst2024.s3.us-east-1.amazonaws.com/videos/skyst2024/{video_id}.webm",
+        "url": f"https://skyst2024.s3.us-east-1.amazonaws.com/videos/{video_id}.webm",
         "question": video_info.question,
         "datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S'),
         "video_id": video_id
     }   
-    print(video_info.question)
+    #print(video_info.question)
     return JsonResponse({"data": data})
