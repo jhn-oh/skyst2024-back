@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from .models import Video
+from .models import Video, Account
 from django.http import JsonResponse, FileResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from .video_compress import video_compress
@@ -20,6 +20,8 @@ import json
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from time import time
+from django.shortcuts import get_object_or_404
+
 username = "skyst2024"
 
 # Create your views here.
@@ -159,5 +161,11 @@ def get_s3_url(request):
                                                           'Key': f"videos/{username}/{unix_timestamp}.webm"},
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
-
+    #Key를 저장함
+    try:
+        video_list = Account.objects.get(email = username)
+        video_list.videos += f",{unix_timestamp}"
+        video_list.save()
+    except Account.DoesNotExist:
+        pass
     return JsonResponse({'url': presigned_url})

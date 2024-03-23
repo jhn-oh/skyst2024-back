@@ -6,3 +6,4 @@ ffprobe==0.5
 filelock==3.13.1
 httpx==0.25.2
 gunicorn==21.2.0
+boto3==1.34.69
