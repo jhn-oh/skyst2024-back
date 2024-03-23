@@ -91,7 +91,7 @@ def hello_rest_api(request):
 
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
-def upload_video(request):
+def upload_video2(request):
     if request.method == "POST":
         video_file = request.FILES.get('video')
         question = request.POST.get('question')
@@ -115,3 +115,49 @@ def get_video(request, video_id):
         return FileResponse(video.file.open(), content_type='video/webm')
     except Video.DoesNotExist:
         raise Http404('Video does not exist')
+    
+
+
+
+import boto3
+def s3_connection():
+    try:
+        # s3 클라이언트 생성
+        s3 = boto3.client(
+            service_name="s3",
+            region_name="ap-northeast-2",
+            aws_access_key_id="AKIAYKLLNR5ERK5GNIPO",
+            aws_secret_access_key="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",
+        )
+    except Exception as e:
+        print(e)
+    else:
+        print("s3 bucket connected!") 
+        return s3
+
+ 
+s3 = s3_connection()
+
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def get_s3_url(request):
+    unix_timestamp = round(time())
+    AWS_ACCESS_KEY_ID = "AKIAYKLLNR5ERK5GNIPO"
+    AWS_SECRET_ACCESS_KEY ="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"
+    AWS_STORAGE_BUCKET_NAME = "skyst2024"
+    AWS_S3_REGION_NAME = "us-east-1"
+
+    client = boto3.client('s3', region_name=AWS_S3_REGION_NAME,
+                          aws_access_key_id=AWS_ACCESS_KEY_ID,
+                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+
+    # Generate a pre-signed URL for PUT requests
+    presigned_url = client.generate_presigned_url('put_object',
+                                                  Params={'Bucket': AWS_STORAGE_BUCKET_NAME,
+                                                          'Key': f"videos/{username}/{unix_timestamp}.webm"},
+                                                  ExpiresIn=3600, # URL expires in 1 hour
+                                                  HttpMethod='PUT')
+
+    return JsonResponse({'url': presigned_url})
