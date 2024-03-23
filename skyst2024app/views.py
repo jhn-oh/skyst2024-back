@@ -210,7 +210,7 @@ def get_all_video(request, username):
             "url": f"https://skyst2024.s3.amazonaws.com/videos/{username}/{timestamp}.webm",
             "thumbnail": f"https://skyst2024.s3.amazonaws.com/thumbnails/{username}/{timestamp}.jpg", #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
             "question": video_info.question,
-            "datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S'),
+            "datetime": dt_kst.strftime('%Y년 %m월 %d일'),
             "video_id": f"{username}/{timestamp}"
         })
         return JsonResponse({"data": result_video_list})
@@ -229,7 +229,8 @@ def get_specific_video(request):
         "url": f"https://skyst2024.s3.amazonaws.com/videos/{video_id}.webm",
         "thumbnail": f"https://skyst2024.s3.amazonaws.com/thumbnails/{video_id}.jpg", #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
         "question": video_info.question,
-        "datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S'),
+        #"datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S'),
+        "datetime": dt_kst.strftime('%Y년 %m월 %d일'),
         "video_id": video_id
     }   
     #print(video_info.question)
