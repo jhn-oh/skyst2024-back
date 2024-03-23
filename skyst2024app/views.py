@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from rest_framework import serializers
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -14,21 +15,24 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from .serializers import UserLoginSerializer
+import json
 
 # Create your views here.
-def login(request):
-    email = request['email']
-    password = request['password']
-    user = authenticate(request, username=email, password=password)
-    if user:
-        login(request, user)
-        return 
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def login_user(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            # The credentials are valid
+            login(request, user)
+            return JsonResponse({"success": True, "message": "Login successful."})
+        else:
+            # Authentication failed
+            return JsonResponse({"success": False, "message": "Invalid credentials."})
 
-'''
-{"username": "ohjuhyun1",
-"email": "ohjuhyun1@gmail.com",
-"password": "ohrora555"}
-'''
 
 User = get_user_model()
 
