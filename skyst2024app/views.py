@@ -95,6 +95,11 @@ def upload_video(request):
     if request.method == "POST":
         video_file = request.FILES.get('video')
         question = request.POST.get('question')
+        unix_timestamp = round(time())
+        video = Video(user = username, time = unix_timestamp, title = f"{username}///{unix_timestamp}", question = question, file = video_file)
+        #video = video_compress(video)
+        video.save()
+        return JsonResponse({'message': 'Video uploaded successfully'}, status=200)
         if video_file:
             unix_timestamp = round(time())
             video = Video(user = username, time = unix_timestamp, title = f"{username}///{unix_timestamp}", question = question, file = video_file)
