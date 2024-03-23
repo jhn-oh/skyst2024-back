@@ -24,7 +24,7 @@ def login_user(request):
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
-        user = authenticate(request, username=email, password=password)
+        user = authenticate(request, email=email, password=password)
         if user is not None:
             # The credentials are valid
             login(request, user)
@@ -32,7 +32,7 @@ def login_user(request):
         else:
             # Authentication failed
             return JsonResponse({"success": False, "message": "Invalid credentials."})
-
+        # 왜안돼!!!!!!
 
 User = get_user_model()
 
