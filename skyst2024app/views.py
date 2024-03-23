@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from .serializers import AccountSerializer
+#from .serializers import AccountSerializer
 import json
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
@@ -94,9 +94,10 @@ def hello_rest_api(request):
 def upload_video(request):
     if request.method == "POST":
         video_file = request.FILES.get('video')
+        question = request.POST.get('question')
         if video_file:
             unix_timestamp = round(time())
-            video = Video(title = "f{username}///{unix_timestamp}", file = video_file)
+            video = Video(user = username, time = unix_timestamp, title = f"{username}///{unix_timestamp}", question = question, file = video_file)
             #video = video_compress(video)
             video.save()
             return JsonResponse({'message': 'Video uploaded successfully'}, status=200)
