@@ -31,4 +31,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run
       run: |
-        nohup python manage.py runserver < /dev/null & > /dev/null &
+        nohup python manage.py runserver > nohup.out 2> nohup.err < /dev/null
