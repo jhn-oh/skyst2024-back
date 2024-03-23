@@ -161,7 +161,7 @@ def get_s3_url(request):
 
     # Generate a pre-signed URL for PUT requests
     presigned_url = client.generate_presigned_url('put_object',
-                                                  Params={'Bucket': AWS_STORAGE_BUCKET_NAME,
+                                                  Params={'Bucket': "skyst2024",
                                                           'Key': f"videos/{username}/{unix_timestamp}.webm"},
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
@@ -218,3 +218,5 @@ def get_specific_video(request):
     }   
     #print(video_info.question)
     return JsonResponse({"data": data})
+
+def 
