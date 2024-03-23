@@ -204,4 +204,16 @@ def get_all_video(request, username):
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def get_specific_video(request):
-    request.GET.get('video_id')
+    video_id = request.GET.get('video_id')
+    video_info = VideoInfo.objects.get(video_id = video_id)
+    dt_utc = datetime.datetime.utcfromtimestamp(int(video_info.time))
+    kst_offset = datetime.timedelta(hours=9)
+    dt_kst = dt_utc + kst_offset
+    data = {
+        "url": f"https://skyst2024.s3.us-east-1.amazonaws.com/videos/skyst2024/{video_id}.webm",
+        "question": video_info.question,
+        "datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S'),
+        "video_id": video_id
+    }   
+    print(video_info.question)
+    return JsonResponse({"data": data})
