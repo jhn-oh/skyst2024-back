@@ -162,14 +162,18 @@ def get_s3_url(request):
     # Generate a pre-signed URL for PUT requests
     presigned_url_video = client.generate_presigned_url('put_object',
                                                   Params={'Bucket': AWS_STORAGE_BUCKET_NAME,
-                                                          'Key': f"videos/{username}/{unix_timestamp}.webm"},
+                                                          'Key': f"videos/{username}/{unix_timestamp}.webm",
+                                                          'ContentType': 'video/webm'},
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
+    '''
     presigned_url_thumbnail = client.generate_presigned_url('put_object',
                                                   Params={'Bucket': AWS_STORAGE_BUCKET_NAME,
-                                                          'Key': f"thumbnails/{username}/{unix_timestamp}.jpg"}, #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
+                                                          'Key': f"thumbnails/{username}/{unix_timestamp}.jpg",
+                                                          'ContentType': 'image/jpeg'}, #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
+                                                  '''
     #Key를 저장함
     video_list = Account.objects.get(username = username)
     video_list.videos = f"{video_list.videos},{unix_timestamp}"
