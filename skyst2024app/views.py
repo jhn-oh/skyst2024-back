@@ -150,8 +150,8 @@ def get_s3_url(request):
     # username = request.POST.get('username') #지금은 기본 username으로 진행 (username = skyst2024)
     unix_timestamp = round(time())
     question_req = request.GET.get('question')
-    AWS_ACCESS_KEY_ID = "AKIAYKLLNR5ERK5GNIPO"
-    AWS_SECRET_ACCESS_KEY ="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"
+    AWS_ACCESS_KEY_ID = "AKIAYKLLNR5EZSPNW7WQ"
+    AWS_SECRET_ACCESS_KEY ="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"
     AWS_STORAGE_BUCKET_NAME = "skyst2024"
     AWS_S3_REGION_NAME = "us-east-1"
 
