@@ -160,9 +160,14 @@ def get_s3_url(request):
                           aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
     # Generate a pre-signed URL for PUT requests
-    presigned_url = client.generate_presigned_url('put_object',
+    presigned_url_video = client.generate_presigned_url('put_object',
                                                   Params={'Bucket': AWS_STORAGE_BUCKET_NAME,
                                                           'Key': f"videos/{username}/{unix_timestamp}.webm"},
+                                                  ExpiresIn=3600, # URL expires in 1 hour
+                                                  HttpMethod='PUT')
+    presigned_url_thumbnail = client.generate_presigned_url('put_object',
+                                                  Params={'Bucket': AWS_STORAGE_BUCKET_NAME,
+                                                          'Key': f"thumbnails/{username}/{unix_timestamp}.webm"},
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
     #Key를 저장함
@@ -177,11 +182,10 @@ def get_s3_url(request):
         time = unix_timestamp
     )
 
-    return JsonResponse({'url': presigned_url})
+    return JsonResponse({'video': presigned_url_video,
+                         'thumbnail': presigned_url_thumbnail})
 
 def save_thumbnail(request):
-    unix_timestamp = round(time())
-    question_req = request.GET.get('question')
     AWS_ACCESS_KEY_ID = "AKIAYKLLNR5ERK5GNIPO"
     AWS_SECRET_ACCESS_KEY ="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"
     AWS_STORAGE_BUCKET_NAME = "skyst2024"
