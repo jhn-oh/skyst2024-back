@@ -17,11 +17,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-class CorsMiddleware(MiddlewareMixin):
-    def process_response(self, request, response):
-        response["Access-Control-Allow-Origin"] = "*"  # 모든 도메인에서의 접근을 허용
-        # 필요에 따라 다른 CORS 헤더들도 추가할 수 있습니다.
-        return response
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -48,6 +44,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders'
 ]
+
+class CorsMiddleware(MiddlewareMixin):
+    def process_response(self, request, response):
+        response["Access-Control-Allow-Origin"] = "*"  # 모든 도메인에서의 접근을 허용
+        # 필요에 따라 다른 CORS 헤더들도 추가할 수 있습니다.
+        return response
+    
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -172,11 +175,10 @@ CORS_ALLOW_HEADERS = (
 )
 
 CORS_ALLOWED_ORIGINS = [
-    "https://api-skyst.mirix.kr/",
-    "http://api-skyst.mirix.kr/",
-    "https://www-skyst.mirix.kr/",
-    "http://www-skyst.mirix.kr/",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
+    "api-skyst.mirix.kr",
+    "www-skyst.mirix.kr",
+    "localhost:8000",
+    "localhost:5173"
+    "127.0.0.1:8000",
     "null",
 ]
