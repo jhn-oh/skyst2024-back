@@ -162,10 +162,7 @@ def get_s3_url(request):
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
     #Key를 저장함
-    try:
-        video_list = Account.objects.get(email = username)
-        video_list.videos += f",{unix_timestamp}"
-        video_list.save()
-    except Account.DoesNotExist:
-        pass
+    video_list = Account.objects.get(username = username)
+    video_list.videos = f"{video_list.videos},{unix_timestamp}"
+    video_list.save()
     return JsonResponse({'url': presigned_url})
