@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from .models import Video, Account
+from .models import Video, Account, VideoInfo
 from django.http import JsonResponse, FileResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from .video_compress import video_compress
@@ -16,11 +16,13 @@ from rest_framework.permissions import AllowAny
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 #from .serializers import AccountSerializer
+import datetime
 import json
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from time import time
 from django.shortcuts import get_object_or_404
+import pytz
 
 username = "skyst2024"
 
@@ -147,6 +149,7 @@ s3 = s3_connection()
 def get_s3_url(request):
     # username = request.POST.get('username') #지금은 기본 username으로 진행 (username = skyst2024)
     unix_timestamp = round(time())
+    question_req = request.POST.get('question')
     AWS_ACCESS_KEY_ID = "AKIAYKLLNR5ERK5GNIPO"
     AWS_SECRET_ACCESS_KEY ="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"
     AWS_STORAGE_BUCKET_NAME = "skyst2024"
@@ -166,6 +169,14 @@ def get_s3_url(request):
     video_list = Account.objects.get(username = username)
     video_list.videos = f"{video_list.videos},{unix_timestamp}"
     video_list.save()
+    
+    #VideoInfo를 저장함
+    video_info = VideoInfo.objects.create(
+        video_id = f"{username}/{unix_timestamp}",
+        question = question_req,
+        time = unix_timestamp
+    )
+
     return JsonResponse({'url': presigned_url})
 
 
@@ -177,7 +188,19 @@ def get_all_video(request):
     videos_list = videos.split(',')
     result_video_list = []
     for timestamp in videos_list:
+        video_info = VideoInfo.objects.get(video_id = f"{username}/{timestamp}")
+        dt_utc = datetime.datetime.utcfromtimestamp(timestamp)
+        kst_offset = datetime.timedelta(hours=9)
+        dt_kst = dt_utc + kst_offset
         result_video_list.append({
-            "url": f"https://skyst2024.s3.us-east-1.amazonaws.com/videos/skyst2024/{username}/{timestamp}.webm"
+            "url": f"https://skyst2024.s3.us-east-1.amazonaws.com/videos/skyst2024/{username}/{timestamp}.webm",
+            "question": video_info.question,
+            "datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S')
         })
+        return JsonResponse({"data": result_video_list})
+    
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def get_specific_video(request):
     
