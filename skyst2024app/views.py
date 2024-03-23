@@ -208,18 +208,21 @@ def get_all_video(request, username):
     videos_list = videos.split(',')
     result_video_list = []
     for timestamp in videos_list:
-        video_info = VideoInfo.objects.get(video_id = f"{username}/{timestamp}")
-        dt_utc = datetime.datetime.utcfromtimestamp(int(timestamp))
-        kst_offset = datetime.timedelta(hours=9)
-        dt_kst = dt_utc + kst_offset
-        result_video_list.append({
-            "url": f"https://skyst2024.s3.amazonaws.com/videos/{username}/{timestamp}.webm",
-            #"thumbnail": f"https://skyst2024.s3.amazonaws.com/thumbnails/{username}/{timestamp}.jpg", #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
-            "question": video_info.question,
-            "datetime": dt_kst.strftime('%Y년 %m월 %d일'),
-            "video_id": f"{username}/{timestamp}"
-        })
-        return JsonResponse({"data": result_video_list})
+        try:
+            video_info = VideoInfo.objects.get(video_id = f"{username}/{timestamp}")
+            dt_utc = datetime.datetime.utcfromtimestamp(int(timestamp))
+            kst_offset = datetime.timedelta(hours=9)
+            dt_kst = dt_utc + kst_offset
+            result_video_list.append({
+                "url": f"https://skyst2024.s3.amazonaws.com/videos/{username}/{timestamp}.webm",
+                #"thumbnail": f"https://skyst2024.s3.amazonaws.com/thumbnails/{username}/{timestamp}.jpg", #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
+                "question": video_info.question,
+                "datetime": dt_kst.strftime('%Y년 %m월 %d일'),
+                "video_id": f"{username}/{timestamp}"
+            })
+        except:
+            pass
+    return JsonResponse({"data": result_video_list})
     
 
 @api_view(['GET', 'POST'])
