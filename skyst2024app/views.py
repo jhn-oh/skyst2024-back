@@ -166,14 +166,14 @@ def get_s3_url(request):
                                                           'ContentType': 'video/webm'},
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
-    '''
+    
     presigned_url_thumbnail = client.generate_presigned_url('put_object',
                                                   Params={'Bucket': AWS_STORAGE_BUCKET_NAME,
                                                           'Key': f"thumbnails/{username}/{unix_timestamp}.jpg",
                                                           'ContentType': 'image/jpeg'}, #나중에 파일명 바꾸면 바꾸기!!!!!!!!!!!!!!!
                                                   ExpiresIn=3600, # URL expires in 1 hour
                                                   HttpMethod='PUT')
-                                                  '''
+                                                  
     #Key를 저장함
     video_list = Account.objects.get(username = username)
     video_list.videos = f"{video_list.videos},{unix_timestamp}"
@@ -187,7 +187,7 @@ def get_s3_url(request):
     )
 
     return JsonResponse({'video': presigned_url_video,
-                         #'thumbnail': presigned_url_thumbnail
+                         'thumbnail': presigned_url_thumbnail
                          })
 
 
