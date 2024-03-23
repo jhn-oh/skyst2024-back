@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'skyst2024app',
     'skyst2024back',
-    'rest_framework'
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

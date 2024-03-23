@@ -8,5 +8,5 @@ urlpatterns = [
     path('testapi1/', views.hello_rest_api, name='home'),
     path('video/upload/', views.upload_video, name='upload_video'),
     path('video/get/<int:video_id>', views.get_video, name="get_video"),
-    path('login/', views.login_user, name='login'),
+    path('login/', views.login, name='login'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
