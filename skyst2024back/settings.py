@@ -175,10 +175,10 @@ CORS_ALLOW_HEADERS = (
 )
 
 CORS_ALLOWED_ORIGINS = [
-    "api-skyst.mirix.kr",
-    "www-skyst.mirix.kr",
-    "localhost:8000",
-    "localhost:5173"
-    "127.0.0.1:8000",
+    "https://api-skyst.mirix.kr",
+    "https://www-skyst.mirix.kr",
+    "https://localhost:8000",
+    "http://localhost:5173",
+    "http://127.0.0.1:8000",
     "null",
 ]
