@@ -16,16 +16,40 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status
 from .serializers import UserLoginSerializer
 import json
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password, check_password
 
 # Create your views here.
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
+def login_user1(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username)
+        login(request, user)
+        return JsonResponse({"success": True, "message": "Login successful."})
+        '''
+        if user is not None:
+            login(request, user)
+            return JsonResponse({"success": True, "message": "Login successful."})
+        else:
+            return JsonResponse({"success": False, "message": "Invalid credentials."})
+        '''
+@csrf_exempt
 def login_user(request):
     if request.method == "POST":
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+        user = User.objects.get(username=username)
+        stored_password = user.password
+        if check_password(password, stored_password):
+            login(request, user)
+            return JsonResponse({"success": True, "message": "Login successful."})
+        else:
+            return JsonResponse({"success": False, "message": "Invalid credentials."})
+        user = authenticate(request, username=username, password=make_password(password))
         if user is not None:
             # The credentials are valid
             login(request, user)
