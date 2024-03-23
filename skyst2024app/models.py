@@ -10,6 +10,7 @@ class Video(models.Model):
     def __str__(self):
         return self.title
 
+
 class Account(models.Model):
     username = models.CharField(max_length = 100, default="no_username")
     email = models.CharField(max_length = 200)
@@ -18,8 +19,12 @@ class Account(models.Model):
 
     def __str__(self):
         return self.username
-    
+
+
 class VideoInfo(models.Model):
     video_id = models.CharField(max_length = 100)
     question = models.CharField(max_length = 255)
-    time = models.IntegerField(max_length = 100)
+    time = models.IntegerField()
+
+    def __str__(self):
+        return self.video_id
