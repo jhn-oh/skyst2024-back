@@ -149,7 +149,7 @@ s3 = s3_connection()
 def get_s3_url(request):
     # username = request.POST.get('username') #지금은 기본 username으로 진행 (username = skyst2024)
     unix_timestamp = round(time())
-    question_req = request.POST.get('question')
+    question_req = request.GET.get('question')
     AWS_ACCESS_KEY_ID = "AKIAYKLLNR5ERK5GNIPO"
     AWS_SECRET_ACCESS_KEY ="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"
     AWS_STORAGE_BUCKET_NAME = "skyst2024"
@@ -195,7 +195,8 @@ def get_all_video(request, username):
         result_video_list.append({
             "url": f"https://skyst2024.s3.us-east-1.amazonaws.com/videos/skyst2024/{username}/{timestamp}.webm",
             "question": video_info.question,
-            "datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S')
+            "datetime": dt_kst.strftime('%Y-%m-%d %H:%M:%S'),
+            "video_id": f"{username}/{timestamp}"
         })
         return JsonResponse({"data": result_video_list})
     
@@ -203,4 +204,4 @@ def get_all_video(request, username):
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def get_specific_video(request):
-    pass
+    request.GET.get('video_id')
