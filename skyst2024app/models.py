@@ -15,7 +15,7 @@ class Account(models.Model):
     username = models.CharField(max_length = 100, default="no_username")
     email = models.CharField(max_length = 200)
     password = models.CharField(max_length = 200)
-    videos = models.CharField(max_length = 10000)
+    videos = models.CharField(max_length = 10000, blank=True)
 
     def __str__(self):
         return self.username
