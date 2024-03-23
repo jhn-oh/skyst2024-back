@@ -55,6 +55,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'skyst2024back.urls'
 
+CSRF_TRUSTED_ORIGINS = ['https://api-skyst.mirix.kr/', 'api-skyst.mirix.kr', 'https://www-skyst.mirix.kr/', 'www-skyst.mirix.kr', 'mirix.kr']
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
